@@ -11,11 +11,6 @@ server {
     client_body_buffer_size 32K;
     client_max_body_size 32M;
 
-    location / {
-       root   /brc_intranet;
-       try_files $uri /index.html;
-    }
-
     location /redcap {
         proxy_pass http://10.156.254.207:82/redcap;
         proxy_set_header Host $host;
@@ -30,24 +25,11 @@ server {
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     }
 
-}
-
-server {
-
-    server_name brc.xuhl-tr.nhs.uk;
-    listen 443;
-    ssl on;
-
-    ssl_certificate /cert/brc.xuhl-tr.nhs.uk.cer;
-    ssl_certificate_key /cert/brc.xuhl-tr.nhs.uk.key;
-
-    client_body_in_file_only clean;
-    client_body_buffer_size 32K;
-    client_max_body_size 32M;
-
-    location / {
-       root   /brc_intranet;
-       try_files $uri /index.html;
+   location /labels {
+        proxy_pass http://10.156.254.207:83;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     }
 
 }
@@ -75,6 +57,13 @@ server {
 
    location /appointments {
         proxy_pass http://10.156.254.207:81/appointments;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+   location /labels {
+        proxy_pass http://10.156.254.207:83;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
