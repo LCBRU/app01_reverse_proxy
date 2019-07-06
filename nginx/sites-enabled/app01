@@ -25,12 +25,11 @@ server {
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     }
 
-   location /labels {
+   location / {
         proxy_pass http://10.156.254.207:83/;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Script-Name /labels;
         proxy_set_header X-Scheme $scheme;
     }
 
@@ -44,11 +43,6 @@ server {
     client_body_in_file_only clean;
     client_body_buffer_size 32K;
     client_max_body_size 32M;
-
-    location / {
-       root   /brc_intranet;
-       try_files $uri /index.html;
-    }
 
     location /redcap {
         proxy_pass http://10.156.254.207:82/redcap;
@@ -64,12 +58,11 @@ server {
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     }
 
-   location /labels {
+   location / {
         proxy_pass http://10.156.254.207:83/;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Script-Name /labels;
         proxy_set_header X-Scheme $scheme;
     }
 
